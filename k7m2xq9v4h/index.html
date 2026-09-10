@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#f6f4ef">
 <title>回診日程表</title>
 <style>
@@ -139,8 +140,10 @@
 
     OFFSETS.forEach(function(n){
       var visit = add(base,n);
-      var a = add(visit,-5);
-      var b = add(visit,-3);
+      var delta = (visit.getDay() - 3 + 7) % 7;
+      if(delta === 0){ delta = 7; }
+      var b = add(visit, -delta);
+      var a = add(b, -2);
       var days = Math.round((midnight(visit) - todayM)/86400000);
 
       var isNext = false;
@@ -157,13 +160,13 @@
         '<div class="count">' + n + ' 天</div>' +
         '<div>' +
           '<div><span class="visit">' + md(visit) + '</span><span class="weekday">週' + W[visit.getDay()] + ' · 回診</span></div>' +
-          '<div class="window"><span class="tag">前置</span>' + md(a) + '（' + W[a.getDay()] + '）– ' + md(b) + '（' + W[b.getDay()] + '）</div>' +
+          '<div class="window"><span class="tag">前置</span>' + md(a) + ' – ' + md(b) + '（週一至週三）</div>' +
           '<div class="away">' + away + '</div>' +
         '</div>';
       rowsEl.appendChild(div);
     });
 
-    noteEl.textContent = "起算日 " + base.getFullYear() + "/" + md(base) + "（週" + W[base.getDay()] + "）。前置區間是回診日往前 5 天到 3 天，實際安排以診所為準。";
+    noteEl.textContent = "起算日 " + base.getFullYear() + "/" + md(base) + "（週" + W[base.getDay()] + "）。前置區間是回診日前面那組週一到週三，實際安排以診所為準。";
     save();
   }
 
