@@ -140,10 +140,10 @@
 
     OFFSETS.forEach(function(n){
       var visit = add(base,n);
-      var delta = (visit.getDay() - 3 + 7) % 7;
+      var delta = (visit.getDay() - 4 + 7) % 7;
       if(delta === 0){ delta = 7; }
       var b = add(visit, -delta);
-      var a = add(b, -2);
+      var a = add(b, -3);
       var days = Math.round((midnight(visit) - todayM)/86400000);
 
       var isNext = false;
@@ -160,7 +160,7 @@
         '<div class="count">' + n + ' 天</div>' +
         '<div>' +
           '<div><span class="visit">' + md(visit) + '</span><span class="weekday">週' + W[visit.getDay()] + ' · 回診</span></div>' +
-          '<div class="window"><span class="tag">前置</span>' + md(a) + ' – ' + md(b) + '（週一至週三）</div>' +
+          '<div class="window"><span class="tag">前置</span>' + md(a) + ' – ' + md(b) + '（週一至週四）</div>' +
           '<div class="away">' + away + '</div>' +
         '</div>';
       rowsEl.appendChild(div);
